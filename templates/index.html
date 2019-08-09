@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            var sectors = {{sectors| safe}};
+            data.addColumn("string", "Countries");
+            for(i=0; i<sectors.length; i++){
+                data.addColumn("number", sectors[i]);
+            }
+            data.addRows({{ jsonData| safe}});
+
+        var options = {
+            title: 'Country vs Intensity in different aspects of growth',
+            hAxis: { title: 'Countries', textStyle: {fontSize: 15} },
+            vAxis: { title: 'Intensity', gridlines: {count: 9, color: "transparent"}},
+            pointShape: "square",
+            pointSize: 40,
+            crosshair: { trigger: "both", opacity: 0.3},
+            height: 600,
+            width: 3000,
+            chartArea: { 'width': '90%', 'height': '50%' },
+            legend: { 'position': 'bottom', textStyle: {fontSize: 14 }},
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+        }
+    </script>
+    <style>
+        #chart_div {
+            overflow-x: scroll;
+            height: 700px;
+           }
+    </style>
+</head>
+
+<body>
+    <!-- <pre>{{jsonData|safe}}</pre> -->
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['table'] });
+        google.charts.setOnLoadCallback(drawTable);
+
+        function drawTable() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Title');
+            data.addColumn('string', 'Topic');
+            data.addColumn('string', 'Year');
+            data.addColumn('string', 'Sector');
+            data.addColumn('string', 'Region');
+            data.addColumn('string', 'PESTLE');
+            data.addRows({{ tableData| safe}});
+        data.setColumnProperty(0, { allowHtml: true });
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%', allowHtml: true, page: "enable" });
+        }
+    </script>
+    <div class="container-fluid mb-5 p-5 pt-0">
+        <div id="chart_div"/>
+    </div>
+    <div class="mt-5">
+        <div id="table_div"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
